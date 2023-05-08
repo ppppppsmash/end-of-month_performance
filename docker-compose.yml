@@ -1,0 +1,10 @@
+version: '3'
+services:
+  client:
+    build: ./docker/client/
+    ports:
+      - '4500:3000'
+    volumes:
+      - ./client:/app
+    command: bash
+    tty: true
