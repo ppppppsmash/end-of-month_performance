@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import './App.css';
-import { Tasks } from './types'
-import Input from './components/Input'
+import Title from './components/Title';
+import Input from './components/Input';
 
 const App: FC = (): JSX.Element => {
+  const title = '月末稼動レポート';
+
   const tasks = [
     { label: '車買取', time: 0 },
     { label: '車販売', time: 0 },
@@ -38,11 +40,30 @@ const App: FC = (): JSX.Element => {
     { label: '全社共通', time: 0 },
   ]
 
-
   return (
-    <div className="mx-auto">
-      <div className="mt-6 space-y-6">
-        <Input tasks={tasks} />
+    <div>
+      <Title title={title} />
+      <div className="flex w-full space-x-4 h-[90vh] items:center mt-8">
+        <div className="flex-1 w-5/12 border border-solid rounded border-black p-8">
+          <div>
+            <Input tasks={tasks} />
+          </div>
+        </div>
+        <div className="flex-1 w-5/12 border border-solid rounded border-black p-8">
+          <div>
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+            testtesttesttest
+          </div>
+        </div>
       </div>
     </div>
   );
