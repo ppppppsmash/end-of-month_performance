@@ -28,3 +28,6 @@ http://localhost:4500
 互換性やデバイスによりnpm iを実行した時にエラーを回避するため、
 react環境をローカルではなくコンテナの中に実行させる
 ```
+
+### GCP ストレージ
+url: https://storage.googleapis.com/working_hours_to_percentages/index.html
