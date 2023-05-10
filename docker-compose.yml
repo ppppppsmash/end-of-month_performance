@@ -8,3 +8,5 @@ services:
       - ./client:/app
     command: bash
     tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true

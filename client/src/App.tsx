@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import './App.css';
+import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
 import Title from './components/Title';
 import Input from './components/Input';
 
@@ -39,6 +40,14 @@ const App: FC = (): JSX.Element => {
     { label: '補聴器', time: '' },
     { label: '全社共通', time: '' },
   ]);
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+  const data = tasksPercentages.map((task, index) => ({
+    name: task.label,
+    value: Number(task.time),
+    color: COLORS[index % COLORS.length],
+  }));
+
 
   console.log(tasksPercentages)
 
@@ -77,12 +86,12 @@ const App: FC = (): JSX.Element => {
         <div className="flex-1 w-5/12 border border-solid rounded border-black p-8 overflow-x-none h-[90vh] overflow-y-scroll">
           <div className="mb-12">
             <div className="mb-4"><h2 className="text-2xl">業務割合</h2></div>
-            {tasksPercentages.map((task, index) => (
-              <Input key={index} label={task.label} time={task.time} onChange={(e: any) => handlePercentageChange(e, index)} />
-            ))
-
-            }
-            {/* <Input tasks={tasksPercentages} onChange={(event) => handlePercentageChange(index, event.target.value)} /> */}
+              <div>
+              {tasksPercentages.map((task, index) => (
+                <Input key={index} label={task.label} time={task.time} onChange={(e: any) => handlePercentageChange(e, index)} />
+              ))}
+              {/* <Input tasks={tasksPercentages} onChange={(event) => handlePercentageChange(index, event.target.value)} /> */}
+              </div>
           </div>
           <div>
             <div className="mb-4"><h2 className="text-2xl">工数</h2></div>
@@ -90,18 +99,23 @@ const App: FC = (): JSX.Element => {
           </div>
         </div>
         <div className="flex-1 w-5/12 border border-solid rounded border-black p-8">
-          <div>
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
-            testtesttesttest
+          <div className="w-full mx-auto">
+            <PieChart width={700} height={400}>
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                fill="#8884d8"
+                label={({ name, value }) => `${name}：${(((value) * 100).toFixed(1))}%`}
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+            </PieChart>
           </div>
         </div>
       </div>
