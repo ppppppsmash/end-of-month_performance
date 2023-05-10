@@ -6,7 +6,7 @@ import Input from './components/Input';
 const App: FC = (): JSX.Element => {
   const title = '月末稼動レポート';
 
-  const tasks = [
+  const tasks_percentages = [
     { label: '車買取', time: 0 },
     { label: '車販売', time: 0 },
     { label: '廃車ツヨシ', time: 0 },
@@ -40,13 +40,34 @@ const App: FC = (): JSX.Element => {
     { label: '全社共通', time: 0 },
   ]
 
+  const tasks_times = [
+    { label: '自動車保険', time: 0 },
+    { label: 'ペット保険', time: 0 },
+    { label: '火災保険', time: 0 },
+    { label: '火災保険法人', time: 0 },
+    { label: '火災保険（ネット型）', time: 0 },
+    { label: '自動車保険（楽天IP）', time: 0 },
+    { label: '旅行保険', time: 0 },
+    { label: 'ゴルフ保険', time: 0 },
+    { label: 'バイク保険', time: 0 },
+    { label: 'MyPetsLife', time: 0 },
+    { label: 'メルマガ 保険', time: 0 },
+    { label: '損害保険見直し本舗', time: 0 },
+    { label: '保険その他作業', time: 0 },
+  ]
+
   return (
     <div>
       <Title title={title} />
-      <div className="flex w-full space-x-4 h-[90vh] items:center mt-8">
-        <div className="flex-1 w-5/12 border border-solid rounded border-black p-8">
+      <div className="flex flex-wrap w-full space-x-4 items:center mt-8 px-6">
+        <div className="flex-1 w-5/12 border border-solid rounded border-black p-8 overflow-x-none h-[90vh] overflow-y-scroll">
+          <div className="mb-12">
+            <div className="mb-4"><h2 className="text-2xl">業務割合</h2></div>
+            <Input tasks={tasks_percentages} />
+          </div>
           <div>
-            <Input tasks={tasks} />
+            <div className="mb-4"><h2 className="text-2xl">工数</h2></div>
+            <Input tasks={tasks_times} />
           </div>
         </div>
         <div className="flex-1 w-5/12 border border-solid rounded border-black p-8">
