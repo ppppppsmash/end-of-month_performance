@@ -86,20 +86,30 @@ const App: FC = (): JSX.Element => {
         <div className="flex-1 w-5/12 border border-solid rounded border-black p-8 overflow-x-none h-[90vh] overflow-y-scroll">
           <div className="mb-12">
             <div className="mb-4"><h2 className="text-2xl">業務割合</h2></div>
-              <div>
+            <div>
+              <p>合計時間：</p>
+              <p>合計割合：</p>
+            </div>
+              <div className='flex flex-wrap m-10 gap-x-10'>
               {tasksPercentages.map((task, index) => (
                 <Input key={index} label={task.label} time={task.time} onChange={(e: any) => handlePercentageChange(e, index)} />
               ))}
-              {/* <Input tasks={tasksPercentages} onChange={(event) => handlePercentageChange(index, event.target.value)} /> */}
               </div>
           </div>
           <div>
             <div className="mb-4"><h2 className="text-2xl">工数</h2></div>
-            {/* <Input tasks={tasksTimes} onChange={() => handlePercentageChange} /> */}
+            <div>
+            <p>合計時間：</p>
+            </div>
+            <div className='flex flex-wrap m-10 gap-x-10'>
+              {tasksTimes.map((task, index) => (
+                <Input key={index} label={task.label} time={task.time} onChange={(e: any) => handlePercentageChange(e, index)} />
+              ))}
+            </div>
           </div>
         </div>
         <div className="flex-1 w-5/12 border border-solid rounded border-black p-8">
-          <div className="w-full mx-auto">
+          <div className="w-full mx-auto mt-20">
             <PieChart width={700} height={400}>
               <Pie
                 data={data}
