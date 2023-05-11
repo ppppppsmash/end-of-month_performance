@@ -9,7 +9,18 @@ const App: FC = (): JSX.Element => {
 
   const [percentageTotalTime, setPercentageTotalTime] = useState<number>(0);
   const [totalTimeOnly, setTotalTimeOnly] = useState<number>(0);
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+  const getChartColor = (index: number) => {
+    const getRandomColor = () => {
+      const get256 = () => { return Math.floor(Math.random()*256); };
+      let [r, g, b] = [get256(), get256(), get256()];
+      let color = `rgb(${r}, ${g}, ${b})`;
+      return color;
+    }
+    const colors = Array.from({ length: index }).map(getRandomColor);
+    return colors[index % colors.length];
+  }
+
 
   const [graphTasksPercentages, setGraphTasksPercentages] = useState<{label: string, time: string}[]>([]);
 
@@ -92,14 +103,14 @@ const App: FC = (): JSX.Element => {
   const datas = graphTasksPercentages.map((task, index) => ({
       name: task.label,
       value: parseFloat(task.time),
-      color: COLORS[index % COLORS.length],
+      color: getChartColor(index),
     }));
 
   return (
     <div>
       <Title title={title} />
       <div className="flex flex-wrap w-full space-x-4 items:center mt-8 px-6">
-        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll">
+        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh]">
           <div className="mb-12 border border-solid border-black rounded p-6">
             <div className="mb-4"><h2 className="text-2xl">業務割合</h2></div>
             <div>
