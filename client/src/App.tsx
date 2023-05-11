@@ -7,6 +7,12 @@ import Input from './components/Input';
 const App: FC = (): JSX.Element => {
   const title = '月末稼動レポート';
 
+  const [percentageTotalTime, setPercentageTotalTime] = useState<number>(0);
+  const [totalTimeOnly, setTotalTimeOnly] = useState<number>(0);
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+  const [graphTasksPercentages, setGraphTasksPercentages] = useState<{label: string, time: string}[]>([]);
+
   const [tasksPercentages, setTasksPercentages] = useState([
     { label: '車買取', time: '' },
     { label: 'マネーフィックス', time: '' },
@@ -41,49 +47,6 @@ const App: FC = (): JSX.Element => {
     { label: '全社共通', time: '' },
   ]);
 
-  const [totalTime, setTotalTime] = useState<number>(0);
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
-  const datas = tasksPercentages.map((task, index) => ({
-    name: task.label,
-    value: parseFloat(task.time),
-    color: COLORS[index % COLORS.length],
-  }));
-
-  const dataTest = ()  => {
-    datas.map((data) => {
-      if(!data.value) {
-        data.name = ''
-      }
-      return data
-    })
-  }
-
-
-  console.log(tasksPercentages)
-
-  const testData: {label: string, time: string}[] = [];
-
-  const handlePercentageChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const newTime = event.target.value;
-
-    const newTask = { label: tasksPercentages[index].label, time: newTime }
-    const newTasks = [...tasksPercentages];
-    newTasks[index].time += newTask.time;
-    //newTasks[index].time = newTime;
-    // setTasksPercentages((prevTasks) =>
-    //   prevTasks.map((task, i) => {
-    //     if (i === index) {
-    //       return { ...task, time: newTime };
-    //     }
-    //     return task;
-    //   })
-    // );
-    setTasksPercentages(newTasks);
-    console.log(newTasks)
-    setTotalTime(newTasks.reduce((sum, task) => sum + Number(task.time), 0));
-  };
-
   const [tasksTimes, setTasksTimes] = useState([
     { label: '自動車保険', time: '' },
     { label: 'ペット保険', time: '' },
@@ -106,6 +69,32 @@ const App: FC = (): JSX.Element => {
     return `${hours}時間${minutes}分`;
   };
 
+  const handlePercentageChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newTime = event.target.value;
+    const inputedTask = { label: tasksPercentages[index].label, time: newTime };
+    setGraphTasksPercentages((prevState) => ([...prevState, inputedTask]));
+
+    const newTasks = [...tasksPercentages];
+    setTasksPercentages(newTasks);
+    newTasks[index].time = newTime;
+    setPercentageTotalTime(newTasks.reduce((sum, task) => sum + Number(task.time), 0));
+  };
+
+  const handleTotalOnly = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newTime = event.target.value;
+
+    const newTasks = [...tasksTimes];
+    setTasksTimes(newTasks);
+    newTasks[index].time = newTime;
+    setTotalTimeOnly(newTasks.reduce((sum, task) => sum + Number(task.time), 0));
+  };
+
+  const datas = graphTasksPercentages.map((task, index) => ({
+      name: task.label,
+      value: parseFloat(task.time),
+      color: COLORS[index % COLORS.length],
+    }));
+
   return (
     <div>
       <Title title={title} />
@@ -114,22 +103,22 @@ const App: FC = (): JSX.Element => {
           <div className="mb-12 border border-solid border-black rounded p-6">
             <div className="mb-4"><h2 className="text-2xl">業務割合</h2></div>
             <div>
-              <p>合計時間：{formatTime(totalTime)}</p>
+              <p>合計時間：{formatTime(percentageTotalTime)}</p>
             </div>
             <div className='flex flex-wrap'>
             {tasksPercentages.map((task, index) => (
-              <Input key={index} label={task.label} time={task.time} onChange={(e: any) => handlePercentageChange(e, index)} />
+              <Input key={index} label={task.label} time={task.time} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePercentageChange(e, index)} />
             ))}
             </div>
           </div>
           <div className="mb-12 border border-solid border-black rounded p-6">
             <div className="mb-4"><h2 className="text-2xl">工数</h2></div>
             <div>
-            <p>合計時間：</p>
+            <p>合計時間：{formatTime(totalTimeOnly)}</p>
             </div>
             <div className='flex flex-wrap'>
               {tasksTimes.map((task, index) => (
-                <Input key={index} label={task.label} time={task.time} onChange={(e: any) => {}} />
+                <Input key={index} label={task.label} time={task.time} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTotalOnly(e, index)} />
               ))}
             </div>
           </div>
@@ -137,12 +126,6 @@ const App: FC = (): JSX.Element => {
         <div className="flex-1 w-5/12 border border-solid rounded border-black p-8">
           <div className="w-full mx-auto mt-20">
             <PieChart width={700} height={400}>
-              { datas.map((data, index) => {
-                if(isNaN(data.value)) {
-                  console.log(data)
-                  //datas.splice(index, 1);
-                }
-              }) &&
               <Pie
                 data={datas}
                 dataKey="value"
@@ -152,14 +135,13 @@ const App: FC = (): JSX.Element => {
                 outerRadius={80}
                 fill="#8884d8"
                 label={({ name, value }) =>
-                  `${name}：${(((value / totalTime) * 100).toFixed(1))}%`
+                  `${name}：${(((value / percentageTotalTime) * 100).toFixed(1))}%`
                 }
               >
                 {datas.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              }
             </PieChart>
           </div>
         </div>

@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 interface Props {
     label: string;
     time: string;
-    onChange(e: any): void;
+    onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }
 
 const Input: FC<Props> = ({label, time, onChange}): JSX.Element => {
