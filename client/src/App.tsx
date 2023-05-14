@@ -83,11 +83,20 @@ const App: FC = (): JSX.Element => {
   const handlePercentageChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newTime = event.target.value;
     const inputedTask = { label: tasksPercentages[index].label, time: newTime };
-    setGraphTasksPercentages((prevState) => ([...prevState, inputedTask]));
 
     const newTasks = [...tasksPercentages];
     setTasksPercentages(newTasks);
     newTasks[index].time = newTime;
+
+    const existingTask = graphTasksPercentages.find(task => task.label === inputedTask.label);
+    if (existingTask) {
+      existingTask.time = newTime;
+    } else {
+      graphTasksPercentages.push(inputedTask);
+    }
+
+    setGraphTasksPercentages([...graphTasksPercentages]);
+
     setPercentageTotalTime(newTasks.reduce((sum, task) => sum + Number(task.time), 0));
   };
 
@@ -110,7 +119,7 @@ const App: FC = (): JSX.Element => {
     <div>
       <Title title={title} />
       <div className="flex flex-wrap w-full space-x-4 items:center mt-8 px-6">
-        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh]">
+        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll">
           <div className="mb-12 border border-solid border-black rounded p-6">
             <div className="mb-4"><h2 className="text-2xl">業務割合</h2></div>
             <div>
