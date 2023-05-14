@@ -5,6 +5,12 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      body: [
+        "IBM Plex Sans JP",
+        "sans-serif"
+      ]
+    },
   },
   plugins: [],
 }

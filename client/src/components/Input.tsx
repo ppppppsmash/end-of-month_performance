@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 interface Props {
     label: string;
     time: string;
-    onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+    onChange(e: React.ChangeEvent<HTMLInputElement>): void | null;
 }
 
 const Input: FC<Props> = ({label, time, onChange}): JSX.Element => {

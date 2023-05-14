@@ -1,26 +1,16 @@
 import { FC, useState } from 'react';
 import './App.css';
-import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
 import Title from './components/Title';
 import Input from './components/Input';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const App: FC = (): JSX.Element => {
   const title = '月末稼動レポート';
 
   const [percentageTotalTime, setPercentageTotalTime] = useState<number>(0);
   const [totalTimeOnly, setTotalTimeOnly] = useState<number>(0);
-
-  const getChartColor = (index: number) => {
-    const getRandomColor = () => {
-      const get256 = () => { return Math.floor(Math.random()*256); };
-      let [r, g, b] = [get256(), get256(), get256()];
-      let color = `rgb(${r}, ${g}, ${b})`;
-      return color;
-    }
-    const colors = Array.from({ length: index }).map(getRandomColor);
-    return colors[index % colors.length];
-  }
-
 
   const [graphTasksPercentages, setGraphTasksPercentages] = useState<{label: string, time: string}[]>([]);
 
@@ -109,16 +99,55 @@ const App: FC = (): JSX.Element => {
     setTotalTimeOnly(newTasks.reduce((sum, task) => sum + Number(task.time), 0));
   };
 
-  const datas = graphTasksPercentages.map((task, index) => ({
-      name: task.label,
-      value: parseFloat(task.time),
-      color: getChartColor(index),
-    }));
+  const datas = {
+    labels: graphTasksPercentages.map((task, index) => (task.label+':  '+((parseFloat(task.time) / percentageTotalTime)*100).toFixed(1)+'%')),
+    datasets: [
+      {
+        label: 'パーセンテージ',
+        data: graphTasksPercentages.map((task, index) => (((parseFloat(task.time) / percentageTotalTime)*100).toFixed(1))),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(205, 92, 92, 0.2)',
+          'rgba(192, 192, 192, 0.2)',
+          'rgba(47, 79, 79, 0.2)',
+          'rgba(0, 250, 154, 0.2)',
+          'rgba(176, 196, 222, 0.2)',
+          'rgba(25, 25, 112, 0.2)',
+          'rgba(245, 245, 220, 0.2)',
+          'rgba(177, 6, 58, 0.2)',
+          'rgba(176, 224, 230, 0.2)',
+          'rgba(225, 165, 0, 0.2)',
+      ],
+        borderColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(205, 92, 92, 0.2)',
+          'rgba(192, 192, 192, 0.2)',
+          'rgba(47, 79, 79, 0.2)',
+          'rgba(0, 250, 154, 0.2)',
+          'rgba(176, 196, 222, 0.2)',
+          'rgba(25, 25, 112, 0.2)',
+          'rgba(245, 245, 220, 0.2)',
+          'rgba(177, 6, 58, 0.2)',
+          'rgba(176, 224, 230, 0.2)',
+          'rgba(225, 165, 0, 0.2)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
-    <div>
+    <div className="font-body">
       <Title title={title} />
-      <div className="flex flex-wrap w-full space-x-4 items:center mt-8 px-6">
+      <div className="flex flex-wrap w-full space-x-4 items:center px-6">
         <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll">
           <div className="mb-12 border border-solid border-black rounded p-6">
             <div className="mb-4"><h2 className="text-2xl">業務割合</h2></div>
@@ -143,26 +172,9 @@ const App: FC = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <div className="flex-1 w-5/12 border border-solid rounded border-black p-8">
+        <div className="bg-white flex-1 w-5/12 border border-solid rounded border-black p-8">
           <div className="w-full mx-auto mt-20">
-            <PieChart width={700} height={400}>
-              <Pie
-                data={datas}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                fill="#8884d8"
-                label={({ name, value }) =>
-                  `${name}：${(((value / percentageTotalTime) * 100).toFixed(1))}%`
-                }
-              >
-                {datas.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-            </PieChart>
+             <Pie data={datas} />
           </div>
         </div>
       </div>

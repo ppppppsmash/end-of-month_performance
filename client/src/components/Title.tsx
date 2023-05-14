@@ -6,8 +6,8 @@ interface Props {
 
 const Input: FC<Props> = ({title}): JSX.Element => {
     return (
-        <div>
-            <h1 className="text-4xl text-center">{title}</h1>
+        <div className="py-8">
+            <h1 className="font-body min-w-full text-4xl font-extrabold text-center linear-gradient(rgb(17, 24, 39), rgb(75, 85, 99))">{title}</h1>
         </div>
     )
 }
