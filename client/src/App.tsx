@@ -4,11 +4,14 @@ import Title from './components/Title';
 import Input from './components/Input';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { isNumberOnly } from './utils/InputValidation';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const App: FC = (): JSX.Element => {
   const title = '月末稼動レポート';
 
+  const [errPercentageInfo, setErrPercentageInfo] = useState<string>('');
+  const [errTotalOnlyInfo, setErrTotalOnlyInfo] = useState<string>('');
   const [percentageTotalTime, setPercentageTotalTime] = useState<number>(0);
   const [totalTimeOnly, setTotalTimeOnly] = useState<number>(0);
 
@@ -72,6 +75,7 @@ const App: FC = (): JSX.Element => {
 
   const handlePercentageChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newTime = event.target.value;
+    setErrPercentageInfo(isNumberOnly(newTime));
     const inputedTask = { label: tasksPercentages[index].label, time: newTime };
 
     const newTasks = [...tasksPercentages];
@@ -92,7 +96,7 @@ const App: FC = (): JSX.Element => {
 
   const handleTotalOnly = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newTime = event.target.value;
-
+    setErrTotalOnlyInfo(isNumberOnly(newTime));
     const newTasks = [...tasksTimes];
     setTasksTimes(newTasks);
     newTasks[index].time = newTime;
@@ -144,17 +148,15 @@ const App: FC = (): JSX.Element => {
     ],
   };
 
-  console.log(datas.datasets[0].data);
-
   return (
     <div className="font-body">
       <Title title={title} />
       <div className="flex flex-wrap w-full space-x-4 items:center px-6">
-        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll">
+        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll shadow-inner">
           <div className="mb-12 border border-solid border-black rounded p-6">
             <div className="mb-4"><h2 className="text-2xl">業務割合入力</h2></div>
             <div>
-              <p>合計時間：{formatTime(percentageTotalTime)}</p>
+              {errPercentageInfo ? <p className="text-base text-error">{errPercentageInfo}</p> : <p>合計時間：{formatTime(percentageTotalTime)}</p>}
             </div>
             <div className='flex flex-wrap'>
             {tasksPercentages.map((task, index) => (
@@ -165,7 +167,7 @@ const App: FC = (): JSX.Element => {
           <div className="mb-12 border border-solid border-black rounded p-6">
             <div className="mb-4"><h2 className="text-2xl">保険関連業務工数入力</h2></div>
             <div>
-            <p>合計時間：{formatTime(totalTimeOnly)}</p>
+            {errTotalOnlyInfo ? <p className="text-base text-error">{errTotalOnlyInfo}</p> : <p>合計時間：{formatTime(totalTimeOnly)}</p>}
             </div>
             <div className='flex flex-wrap'>
               {tasksTimes.map((task, index) => (
@@ -176,8 +178,8 @@ const App: FC = (): JSX.Element => {
         </div>
         <div className="bg-white flex-1 w-5/12 border border-solid rounded border-black p-8">
           <div className="mb-4"><h2 className="text-2xl">円グラフ</h2></div>
-          <div className="w-full mx-auto mt-20 border border-dashed border-black rounded">
-             {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[65vh] flex justify-center items-center text-gray-400">入力された数字に応じて生成する</p>}
+          <div className="w-full mx-auto mt-16 border border-dashed border-black rounded">
+             {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[70vh] flex justify-center items-center text-gray-400">入力された数字に応じてグラフを生成する</p>}
           </div>
         </div>
       </div>
