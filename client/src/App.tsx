@@ -178,7 +178,7 @@ const App: FC = (): JSX.Element => {
         </div>
         <div className="bg-white flex-1 w-5/12 border border-solid rounded border-black p-8">
           <div className="mb-4"><h2 className="text-2xl">円グラフ</h2></div>
-          <div className="w-full mx-auto mt-16 border border-dashed border-black rounded">
+          <div className="w-[75%] mx-auto mt-16 border border-dashed border-black rounded">
              {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[70vh] flex justify-center items-center text-gray-400">入力された数字に応じてグラフを生成する</p>}
           </div>
         </div>
