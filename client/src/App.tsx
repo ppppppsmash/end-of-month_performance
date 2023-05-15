@@ -144,13 +144,15 @@ const App: FC = (): JSX.Element => {
     ],
   };
 
+  console.log(datas.datasets[0].data);
+
   return (
     <div className="font-body">
       <Title title={title} />
       <div className="flex flex-wrap w-full space-x-4 items:center px-6">
         <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll">
           <div className="mb-12 border border-solid border-black rounded p-6">
-            <div className="mb-4"><h2 className="text-2xl">業務割合</h2></div>
+            <div className="mb-4"><h2 className="text-2xl">業務割合入力</h2></div>
             <div>
               <p>合計時間：{formatTime(percentageTotalTime)}</p>
             </div>
@@ -161,7 +163,7 @@ const App: FC = (): JSX.Element => {
             </div>
           </div>
           <div className="mb-12 border border-solid border-black rounded p-6">
-            <div className="mb-4"><h2 className="text-2xl">工数</h2></div>
+            <div className="mb-4"><h2 className="text-2xl">保険関連業務工数入力</h2></div>
             <div>
             <p>合計時間：{formatTime(totalTimeOnly)}</p>
             </div>
@@ -173,8 +175,9 @@ const App: FC = (): JSX.Element => {
           </div>
         </div>
         <div className="bg-white flex-1 w-5/12 border border-solid rounded border-black p-8">
-          <div className="w-full mx-auto mt-20">
-             <Pie data={datas} />
+          <div className="mb-4"><h2 className="text-2xl">円グラフ</h2></div>
+          <div className="w-full mx-auto mt-20 border border-dashed border-black rounded">
+             {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[65vh] flex justify-center items-center text-gray-400">入力された数字に応じて生成する</p>}
           </div>
         </div>
       </div>
