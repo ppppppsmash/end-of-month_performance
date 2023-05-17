@@ -6,16 +6,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        error: "#FF4500"
+        error: "#FF4500",
       }
     },
     fontFamily: {
       body: [
         "IBM Plex Sans JP",
-        "sans-serif"
+        "sans-serif",
       ]
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
+  variants: {
+    scrollbar: ['dark'],
+  }
 }
 

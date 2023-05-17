@@ -152,7 +152,7 @@ const App: FC = (): JSX.Element => {
     <div className="font-body">
       <Title title={title} />
       <div className="flex flex-wrap w-full space-x-4 items:center px-6">
-        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll shadow-inner">
+        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll shadow-inner scrollbar-thin dark:scrollbar-thumb-black dark:scrollbar-track-gray-200">
           <div className="mb-12 border border-solid border-black rounded p-6">
             <div className="mb-4"><h2 className="text-2xl">業務割合入力</h2></div>
             <div>
