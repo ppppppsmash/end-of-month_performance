@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import './App.css';
 import Title from './components/Title';
 import Input from './components/Input';
+import Button from './components/Button';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { isNumberOnly } from './utils/InputValidation';
@@ -148,13 +149,26 @@ const App: FC = (): JSX.Element => {
     ],
   };
 
+  const handlePercentageReset = () => {
+    setTasksPercentages(tasksPercentages.map(task => ({ ...task, time: '' })))
+    setPercentageTotalTime(0)
+  }
+
+  const handleTimeOnlyReset = () => {
+    setTasksTimes(tasksTimes.map(task => ({ ...task, time: '' })))
+    setTotalTimeOnly(0)
+  }
+
   return (
     <div className="font-body">
       <Title title={title} />
-      <div className="flex flex-wrap w-full space-x-4 items:center px-6">
+      <div className="flex flex-wrap w-full space-x-4 items:center px-20">
         <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll shadow-inner scrollbar-thin dark:scrollbar-thumb-black dark:scrollbar-track-gray-200">
           <div className="mb-12 border border-solid border-black rounded p-6">
-            <div className="mb-4"><h2 className="text-2xl">業務割合入力</h2></div>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-2xl">業務割合入力</h2>
+              <Button name="工数リセット" onClick={handlePercentageReset} />
+            </div>
             <div>
               {errPercentageInfo ? <p className="text-base text-error">{errPercentageInfo}</p> : <p>合計時間：{formatTime(percentageTotalTime)}</p>}
             </div>
@@ -165,7 +179,10 @@ const App: FC = (): JSX.Element => {
             </div>
           </div>
           <div className="mb-12 border border-solid border-black rounded p-6">
-            <div className="mb-4"><h2 className="text-2xl">保険関連業務工数入力</h2></div>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-2xl">保険関連業務工数入力</h2>
+              <Button name="工数リセット" onClick={handleTimeOnlyReset} />
+            </div>
             <div>
             {errTotalOnlyInfo ? <p className="text-base text-error">{errTotalOnlyInfo}</p> : <p>合計時間：{formatTime(totalTimeOnly)}</p>}
             </div>
