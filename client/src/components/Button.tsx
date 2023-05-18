@@ -8,8 +8,8 @@ interface Props {
 
 const Button: FC<Props> = ({name, onClick}): JSX.Element => {
     return (
-        <button className="w-[100px] bg-gray-900 rounded-xl h-10
-            text-white text-sm font-semibold active:bg-gray-500
+        <button className="w-[100px] bg-gray-800 rounded h-10
+            text-white text-xs font-semibold active:bg-gray-500
             hover:scale-[0.95] active:scale-[1] transition focus:outline-none
             focus:shadow-outline duration-150 ease-in-out"
             type="button"

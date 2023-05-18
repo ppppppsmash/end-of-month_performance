@@ -9,7 +9,7 @@ import { isNumberOnly } from './utils/InputValidation';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const App: FC = (): JSX.Element => {
-  const title = '月末稼動レポート';
+  const title = '月末稼動';
 
   const [errPercentageInfo, setErrPercentageInfo] = useState<string>('');
   const [errTotalOnlyInfo, setErrTotalOnlyInfo] = useState<string>('');
@@ -160,11 +160,11 @@ const App: FC = (): JSX.Element => {
   }
 
   return (
-    <div className="font-body">
+    <div className="font-ibm">
       <Title title={title} />
       <div className="flex flex-wrap w-full space-x-4 items:center px-20">
-        <div className="flex-1 w-5/12 border border-solid rounded border-black px-6 py-8 overflow-x-none h-[90vh] overflow-y-scroll shadow-inner scrollbar-thin dark:scrollbar-thumb-black dark:scrollbar-track-gray-200">
-          <div className="mb-12 border border-solid border-black rounded p-6">
+        <div className="flex-1 w-5/12 border-4 border-solid rounded border-black px-6 py-8 overflow-x-none h-[88vh] overflow-y-scroll shadow-inner scrollbar-thin dark:scrollbar-thumb-black dark:scrollbar-track-gray-200">
+          <div className="mb-12 border-2 border-solid border-black rounded p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-2xl">業務割合入力</h2>
               <Button name="工数リセット" onClick={handlePercentageReset} />
@@ -178,7 +178,7 @@ const App: FC = (): JSX.Element => {
             ))}
             </div>
           </div>
-          <div className="mb-12 border border-solid border-black rounded p-6">
+          <div className="mb-12 border-2 border-solid border-black rounded p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-2xl">保険関連業務工数入力</h2>
               <Button name="工数リセット" onClick={handleTimeOnlyReset} />
@@ -193,7 +193,7 @@ const App: FC = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <div className="bg-white flex-1 w-5/12 border border-solid rounded border-black p-8">
+        <div className="bg-white flex-1 w-5/12 border-4 border-solid rounded border-black p-8">
           <div className="mb-4"><h2 className="text-2xl">円グラフ</h2></div>
           <div className="w-[75%] mx-auto mt-16 border border-dashed border-black rounded">
              {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[70vh] flex justify-center items-center text-gray-400">入力された数字に応じてグラフを生成する</p>}
