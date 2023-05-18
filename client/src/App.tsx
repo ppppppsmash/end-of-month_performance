@@ -152,25 +152,26 @@ const App: FC = (): JSX.Element => {
   const handlePercentageReset = () => {
     setTasksPercentages(tasksPercentages.map(task => ({ ...task, time: '' })))
     setPercentageTotalTime(0)
-  }
+    setGraphTasksPercentages([])
+  };
 
   const handleTimeOnlyReset = () => {
     setTasksTimes(tasksTimes.map(task => ({ ...task, time: '' })))
     setTotalTimeOnly(0)
-  }
+  };
 
   return (
     <div className="font-ibm">
       <Title title={title} />
       <div className="flex flex-wrap w-full space-x-4 items:center px-20">
         <div className="flex-1 w-5/12 border-4 border-solid rounded border-black px-6 py-8 overflow-x-none h-[88vh] overflow-y-scroll shadow-inner scrollbar-thin dark:scrollbar-thumb-black dark:scrollbar-track-gray-200">
-          <div className="mb-12 border-2 border-solid border-black rounded p-6">
+          <div className="bg-white mb-12 border-2 border-solid border-black rounded p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-2xl">業務割合入力</h2>
+              <h2 className="text-2xl underline decoration-4">業務割合入力</h2>
               <Button name="工数リセット" onClick={handlePercentageReset} />
             </div>
-            <div>
-              {errPercentageInfo ? <p className="text-base text-error">{errPercentageInfo}</p> : <p>合計時間：{formatTime(percentageTotalTime)}</p>}
+            <div className='my-5'>
+              {errPercentageInfo ? <p className="text-base text-error">{errPercentageInfo}</p> : <p className='text-white font-semibold'><span className='bg-black p-2'>合計時間： {formatTime(percentageTotalTime)}</span></p>}
             </div>
             <div className='flex flex-wrap'>
             {tasksPercentages.map((task, index) => (
@@ -178,13 +179,13 @@ const App: FC = (): JSX.Element => {
             ))}
             </div>
           </div>
-          <div className="mb-12 border-2 border-solid border-black rounded p-6">
+          <div className="bg-white mb-12 border-2 border-solid border-black rounded p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-2xl">保険関連業務工数入力</h2>
+              <h2 className="text-2xl underline decoration-4">保険関連業務工数入力</h2>
               <Button name="工数リセット" onClick={handleTimeOnlyReset} />
             </div>
-            <div>
-            {errTotalOnlyInfo ? <p className="text-base text-error">{errTotalOnlyInfo}</p> : <p>合計時間：{formatTime(totalTimeOnly)}</p>}
+            <div className='my-5'>
+            {errTotalOnlyInfo ? <p className="text-base text-error">{errTotalOnlyInfo}</p> : <p className='text-white font-semibold'><span className='bg-black p-2'>合計時間： {formatTime(totalTimeOnly)}</span></p>}
             </div>
             <div className='flex flex-wrap'>
               {tasksTimes.map((task, index) => (
@@ -193,10 +194,10 @@ const App: FC = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <div className="bg-white flex-1 w-5/12 border-4 border-solid rounded border-black p-8">
-          <div className="mb-4"><h2 className="text-2xl">円グラフ</h2></div>
-          <div className="w-[75%] mx-auto mt-16 border border-dashed border-black rounded">
-             {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[70vh] flex justify-center items-center text-gray-400">入力された数字に応じてグラフを生成する</p>}
+        <div className="flex-1 w-5/12 border-4 border-solid rounded border-black p-8">
+          <h2 className="mb-4 text-2xl underline decoration-4">円グラフ（業務割合）</h2>
+          <div className="bg-white w-[75%] mx-auto mt-16 border border-dashed border-black rounded">
+            {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[70vh] flex justify-center items-center text-gray-400">入力された数字に応じてグラフを生成する</p>}
           </div>
         </div>
       </div>

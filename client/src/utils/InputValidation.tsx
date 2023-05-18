@@ -6,4 +6,3 @@ export const isNumberOnly = (value: string): string => {
 
     return '';
 }
-
