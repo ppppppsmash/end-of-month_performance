@@ -3,7 +3,7 @@ import { MdOutlineNoteAlt } from 'react-icons/md'
 
 interface Props {}
 
-const NOTE_OPEN_WIDTH = 'w-[500px]'
+const NOTE_OPEN_WIDTH = 'w-[450px]'
 const NOTE_CLOSE_WIDTH = 'hidden'
 const NOTE_VISIBILITY = 'note-visibility'
 
@@ -17,6 +17,7 @@ const Note: FC<Props> = (props): JSX.Element => {
 
     const { classList } = currentNav
     if(visibility) {
+      console.log(visibility)
       // noteコンポーネントを隠す
       classList.remove(NOTE_OPEN_WIDTH)
       classList.add(NOTE_CLOSE_WIDTH)
@@ -25,6 +26,7 @@ const Note: FC<Props> = (props): JSX.Element => {
       classList.remove(NOTE_CLOSE_WIDTH)
     }
   }
+  
 
   const updateNavState = () => {
     toggleNav(visible)
@@ -34,9 +36,9 @@ const Note: FC<Props> = (props): JSX.Element => {
   }
 
   useEffect(() => {
-    const navState = localStorage.getItem(NOTE_VISIBILITY)
-    if(navState !== null) {
-      const newState = JSON.parse(navState)
+    const noteState = localStorage.getItem(NOTE_VISIBILITY)
+    if(noteState !== null) {
+      const newState = JSON.parse(noteState)
       setVisible(newState)
       toggleNav(!newState)
     } else {
@@ -53,7 +55,7 @@ const Note: FC<Props> = (props): JSX.Element => {
         />
         </div>
 
-        <div ref={noteRef} className='bg-white border-2 border-black w-[450px] h-[450px] rounded-md'>
+        <div ref={noteRef} className='bg-white border-2 hidden border-black w-[450px] h-[450px] rounded-md'>
           <textarea
             className='w-full h-full p-2 text-gray-800 bg-white rounded transition'
             placeholder='何かを記入できる...'
