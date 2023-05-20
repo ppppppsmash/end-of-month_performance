@@ -6,6 +6,7 @@ import Button from './components/Button';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { isNumberOnly } from './utils/InputValidation';
+import Note from './components/Note';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const App: FC = (): JSX.Element => {
@@ -161,13 +162,14 @@ const App: FC = (): JSX.Element => {
   };
 
   return (
-    <div className="font-ibm">
+    <div className="relative font-ibm">
+      <Note />
       <Title title={title} />
       <div className="lg:flex block flex-wrap w-full lg:space-x-4 items:center px-20">
         <div className="flex-1 lg:w-5/12 w-full border-4 border-solid rounded border-black px-6 py-8 overflow-x-none h-[88vh] overflow-y-scroll shadow-inner scrollbar-thin dark:scrollbar-thumb-black dark:scrollbar-track-gray-200">
           <div className="bg-white mb-12 border-2 border-solid border-black rounded p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-2xl underline decoration-4">業務割合入力</h2>
+              <h2 className="text-2xl decoration-4"><span className='underline'>業務割合入力</span><small className='text-[12px] text-gray-600'>　※単位:Hour</small></h2>
               <Button name="工数リセット" onClick={handlePercentageReset} />
             </div>
             <div className='my-5'>
@@ -181,7 +183,7 @@ const App: FC = (): JSX.Element => {
           </div>
           <div className="bg-white mb-12 border-2 border-solid border-black rounded p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-2xl underline decoration-4">保険関連業務工数入力</h2>
+              <h2 className="text-2xl decoration-4"><span className='underline'>保険関連業務工数入力</span><small className='text-[12px] text-gray-600'>　※単位:Hour</small></h2>
               <Button name="工数リセット" onClick={handleTimeOnlyReset} />
             </div>
             <div className='my-5'>
