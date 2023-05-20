@@ -163,8 +163,8 @@ const App: FC = (): JSX.Element => {
   return (
     <div className="font-ibm">
       <Title title={title} />
-      <div className="flex flex-wrap w-full space-x-4 items:center px-20">
-        <div className="flex-1 w-5/12 border-4 border-solid rounded border-black px-6 py-8 overflow-x-none h-[88vh] overflow-y-scroll shadow-inner scrollbar-thin dark:scrollbar-thumb-black dark:scrollbar-track-gray-200">
+      <div className="lg:flex block flex-wrap w-full lg:space-x-4 items:center px-20">
+        <div className="flex-1 lg:w-5/12 w-full border-4 border-solid rounded border-black px-6 py-8 overflow-x-none h-[88vh] overflow-y-scroll shadow-inner scrollbar-thin dark:scrollbar-thumb-black dark:scrollbar-track-gray-200">
           <div className="bg-white mb-12 border-2 border-solid border-black rounded p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-2xl underline decoration-4">業務割合入力</h2>
@@ -194,9 +194,9 @@ const App: FC = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <div className="flex-1 w-5/12 border-4 border-solid rounded border-black p-8">
+        <div className="flex-1 lg:w-5/12 w-full border-4 border-solid rounded border-black p-8 lg:mt-0 mt-8">
           <h2 className="mb-4 text-2xl underline decoration-4">円グラフ（業務割合）</h2>
-          <div className="bg-white w-[75%] mx-auto mt-16 border border-dashed border-black rounded">
+          <div className="bg-white w-[75%] mx-auto mt-8 border border-dashed border-black rounded">
             {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[70vh] flex justify-center items-center text-gray-400">入力された数字に応じてグラフを生成する</p>}
           </div>
         </div>
