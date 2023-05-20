@@ -197,7 +197,7 @@ const App: FC = (): JSX.Element => {
           </div>
         </div>
         <div className="flex-1 lg:w-5/12 w-full border-4 border-solid rounded border-black p-8 lg:mt-0 mt-8">
-          <h2 className="mb-4 text-2xl underline decoration-4">円グラフ（業務割合）</h2>
+          <h2 className="mb-4 text-2xl decoration-4"><span className='underline'>円グラフ</span><small className='text-[12px] text-gray-600'>　※業務割合</small></h2>
           <div className="bg-white w-[75%] mx-auto mt-8 border border-dashed border-black rounded">
             {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[70vh] flex justify-center items-center text-gray-400">入力された数字に応じてグラフを生成する</p>}
           </div>

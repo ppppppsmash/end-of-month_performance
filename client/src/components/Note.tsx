@@ -26,7 +26,6 @@ const Note: FC<Props> = (props): JSX.Element => {
       classList.remove(NOTE_CLOSE_WIDTH)
     }
   }
-  
 
   const updateNavState = () => {
     toggleNav(visible)
@@ -50,7 +49,7 @@ const Note: FC<Props> = (props): JSX.Element => {
     <div className='absolute top-6 right-0 transition z-50'>
       <div className='flex justify-end'>
         <div>
-          <MdOutlineNoteAlt className='transition hover:scale-[0.9] bg-white' size={36}
+          <MdOutlineNoteAlt className='transition hover:scale-[0.9] bg-white cursor-pointer' size={36}
           onClick={updateNavState}
         />
         </div>
