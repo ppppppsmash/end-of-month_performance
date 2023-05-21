@@ -9,7 +9,19 @@ const NOTE_VISIBILITY = 'note-visibility';
 
 const Note: FC<Props> = (props): JSX.Element => {
   const noteRef = useRef<HTMLDivElement>(null);
+  const noteIconRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const noteState = localStorage.getItem(NOTE_VISIBILITY);
+    if(noteState !== null) {
+      const newState = JSON.parse(noteState);
+      setVisible(newState);
+      toggleNav(!newState);
+    } else {
+      setVisible(true);
+    }
+  }, []);
 
   const toggleNav = (visibility: boolean) => {
     const { current: currentNav } = noteRef;
@@ -34,28 +46,33 @@ const Note: FC<Props> = (props): JSX.Element => {
   }
 
   useEffect(() => {
-    const noteState = localStorage.getItem(NOTE_VISIBILITY);
-    if(noteState !== null) {
-      const newState = JSON.parse(noteState);
-      setVisible(newState);
-      toggleNav(!newState);
-    } else {
-      setVisible(true);
+    let intervalId: NodeJS.Timeout;
+    const noteIcon = noteIconRef.current;
+
+    if (noteIcon) {
+      let scaleUp = true;
+      intervalId = setInterval(() => {
+        const scaleValue = scaleUp ? 'scale-[0.9]' : 'scale-[1]';
+        noteIcon.classList.toggle(scaleValue);
+        scaleUp = !scaleUp;
+      }, 800);
     }
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div className='absolute top-6 right-0 transition z-50'>
       <div className='flex justify-end'>
-        <div>
+        <div className='w-[36px] h-[36px]' ref={noteIconRef}>
           <MdOutlineNoteAlt
-            className='transition hover:scale-[0.9] bg-white cursor-pointer'
+            className='transition bg-white cursor-pointer'
             size={36}
             onClick={updateNavState}
-        />
+          />
         </div>
 
-        <div ref={noteRef}className='bg-white border-2 hidden border-black w-[450px] h-[450px] rounded-md'>
+        <div ref={noteRef} className='bg-white border-2 hidden border-black w-[450px] h-[450px] rounded-md'>
           <textarea
             className='w-full h-full p-2 text-gray-800 bg-white rounded transition'
             placeholder='何かを記入できる...'
