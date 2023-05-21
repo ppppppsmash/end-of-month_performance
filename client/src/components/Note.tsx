@@ -48,12 +48,14 @@ const Note: FC<Props> = (props): JSX.Element => {
     <div className='absolute top-6 right-0 transition z-50'>
       <div className='flex justify-end'>
         <div>
-          <MdOutlineNoteAlt className='transition hover:scale-[0.9] bg-white cursor-pointer' size={36}
-          onClick={updateNavState}
+          <MdOutlineNoteAlt
+            className='transition hover:scale-[0.9] bg-white cursor-pointer'
+            size={36}
+            onClick={updateNavState}
         />
         </div>
 
-        <div ref={noteRef} className='bg-white border-2 hidden border-black w-[450px] h-[450px] rounded-md'>
+        <div ref={noteRef}className='bg-white border-2 hidden border-black w-[450px] h-[450px] rounded-md'>
           <textarea
             className='w-full h-full p-2 text-gray-800 bg-white rounded transition'
             placeholder='何かを記入できる...'
