@@ -87,9 +87,14 @@ const App: FC = (): JSX.Element => {
     const existingTask = graphTasksPercentages.find(task => task.label === inputedTask.label);
     if (existingTask) {
       existingTask.time = newTime;
+
+      if (existingTask.time === '') {
+        graphTasksPercentages.splice(graphTasksPercentages.indexOf(existingTask), 1);
+      }
     } else {
       graphTasksPercentages.push(inputedTask);
     }
+
 
     setGraphTasksPercentages([...graphTasksPercentages]);
 
