@@ -95,7 +95,6 @@ const App: FC = (): JSX.Element => {
       graphTasksPercentages.push(inputedTask);
     }
 
-
     setGraphTasksPercentages([...graphTasksPercentages]);
 
     setPercentageTotalTime(newTasks.reduce((sum, task) => sum + Number(task.time), 0));
@@ -156,14 +155,14 @@ const App: FC = (): JSX.Element => {
   };
 
   const handlePercentageReset = () => {
-    setTasksPercentages(tasksPercentages.map(task => ({ ...task, time: '' })))
-    setPercentageTotalTime(0)
-    setGraphTasksPercentages([])
+    setTasksPercentages(tasksPercentages.map(task => ({ ...task, time: '' })));
+    setPercentageTotalTime(0);
+    setGraphTasksPercentages([]);
   };
 
   const handleTimeOnlyReset = () => {
-    setTasksTimes(tasksTimes.map(task => ({ ...task, time: '' })))
-    setTotalTimeOnly(0)
+    setTasksTimes(tasksTimes.map(task => ({ ...task, time: '' })));
+    setTotalTimeOnly(0);
   };
 
   return (

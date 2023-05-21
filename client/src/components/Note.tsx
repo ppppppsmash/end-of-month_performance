@@ -1,49 +1,48 @@
-import { FC, useEffect, useRef, useState } from 'react'
-import { MdOutlineNoteAlt } from 'react-icons/md'
+import { FC, useEffect, useRef, useState } from 'react';
+import { MdOutlineNoteAlt } from 'react-icons/md';
 
 interface Props {}
 
-const NOTE_OPEN_WIDTH = 'w-[450px]'
-const NOTE_CLOSE_WIDTH = 'hidden'
-const NOTE_VISIBILITY = 'note-visibility'
+const NOTE_OPEN_WIDTH = 'w-[450px]';
+const NOTE_CLOSE_WIDTH = 'hidden';
+const NOTE_VISIBILITY = 'note-visibility';
 
 const Note: FC<Props> = (props): JSX.Element => {
-  const noteRef = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
+  const noteRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
   const toggleNav = (visibility: boolean) => {
-    const { current: currentNav } = noteRef
+    const { current: currentNav } = noteRef;
     if(!currentNav) return
 
     const { classList } = currentNav
     if(visibility) {
-      console.log(visibility)
       // noteコンポーネントを隠す
-      classList.remove(NOTE_OPEN_WIDTH)
-      classList.add(NOTE_CLOSE_WIDTH)
+      classList.remove(NOTE_OPEN_WIDTH);
+      classList.add(NOTE_CLOSE_WIDTH);
     } else {
-      classList.add(NOTE_OPEN_WIDTH)
-      classList.remove(NOTE_CLOSE_WIDTH)
+      classList.add(NOTE_OPEN_WIDTH);
+      classList.remove(NOTE_CLOSE_WIDTH);
     }
   }
 
   const updateNavState = () => {
-    toggleNav(visible)
-    const newState = !visible
-    setVisible(newState)
-    localStorage.setItem(NOTE_VISIBILITY, JSON.stringify(newState))
+    toggleNav(visible);
+    const newState = !visible;
+    setVisible(newState);
+    localStorage.setItem(NOTE_VISIBILITY, JSON.stringify(newState));
   }
 
   useEffect(() => {
-    const noteState = localStorage.getItem(NOTE_VISIBILITY)
+    const noteState = localStorage.getItem(NOTE_VISIBILITY);
     if(noteState !== null) {
-      const newState = JSON.parse(noteState)
-      setVisible(newState)
-      toggleNav(!newState)
+      const newState = JSON.parse(noteState);
+      setVisible(newState);
+      toggleNav(!newState);
     } else {
-      setVisible(true)
+      setVisible(true);
     }
-  }, [])
+  }, []);
 
   return (
     <div className='absolute top-6 right-0 transition z-50'>
@@ -65,4 +64,4 @@ const Note: FC<Props> = (props): JSX.Element => {
   )
 }
 
-export default Note
+export default Note;
