@@ -3,7 +3,7 @@ import { MdOutlineNoteAlt } from 'react-icons/md';
 
 interface Props {}
 
-const NOTE_OPEN_WIDTH = 'w-[450px]';
+const NOTE_OPEN_WIDTH = 'w-[500px]';
 const NOTE_CLOSE_WIDTH = 'hidden';
 const NOTE_VISIBILITY = 'note-visibility';
 
@@ -64,18 +64,18 @@ const Note: FC<Props> = (props): JSX.Element => {
   return (
     <div className='absolute top-6 right-0 transition z-50'>
       <div className='flex justify-end'>
-        <div className='w-[36px] h-[36px]' ref={noteIconRef}>
+        <div className='w-[42px] h-[42px]' ref={noteIconRef}>
           <MdOutlineNoteAlt
             className='transition bg-white cursor-pointer'
-            size={36}
+            size={42}
             onClick={updateNavState}
           />
         </div>
 
-        <div ref={noteRef} className='bg-white border-2 hidden border-black w-[450px] h-[450px] rounded-md'>
+        <div ref={noteRef} className='bg-white border-2 hidden border-black w-[500px] h-[500px] rounded-md'>
           <textarea
             className='w-full h-full p-2 text-gray-800 bg-white rounded transition'
-            placeholder='何かを記入できる...'
+            placeholder='ここで一時的に簡単なメモを記入できます...'
           ></textarea>
         </div>
       </div>

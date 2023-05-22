@@ -19,6 +19,8 @@ const App: FC = (): JSX.Element => {
 
   const [graphTasksPercentages, setGraphTasksPercentages] = useState<{label: string, time: string}[]>([]);
 
+  const [displayFlg, setDisplayFlg] = useState<boolean>(true);
+
   const [tasksPercentages, setTasksPercentages] = useState([
     { label: '車買取', time: '' },
     { label: 'マネーフィックス', time: '' },
@@ -77,7 +79,10 @@ const App: FC = (): JSX.Element => {
 
   const handlePercentageChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newTime = event.target.value;
-    setErrPercentageInfo(isNumberOnly(newTime));
+
+    setDisplayFlg(isNumberOnly(newTime) ? false : true);
+    setErrPercentageInfo(isNumberOnly(newTime) ? isNumberOnly(newTime) : '')
+
     const inputedTask = { label: tasksPercentages[index].label, time: newTime };
 
     const newTasks = [...tasksPercentages];
@@ -85,18 +90,17 @@ const App: FC = (): JSX.Element => {
     newTasks[index].time = newTime;
 
     const existingTask = graphTasksPercentages.find(task => task.label === inputedTask.label);
+
     if (existingTask) {
       existingTask.time = newTime;
 
-      if (existingTask.time === '') {
-        graphTasksPercentages.splice(graphTasksPercentages.indexOf(existingTask), 1);
-      }
+      existingTask.time === '' && graphTasksPercentages.splice(graphTasksPercentages.indexOf(existingTask), 1);
+      setDisplayFlg(isNumberOnly(existingTask.time) ? false : true);
     } else {
       graphTasksPercentages.push(inputedTask);
     }
 
     setGraphTasksPercentages([...graphTasksPercentages]);
-
     setPercentageTotalTime(newTasks.reduce((sum, task) => sum + Number(task.time), 0));
   };
 
@@ -202,9 +206,16 @@ const App: FC = (): JSX.Element => {
         </div>
         <div className="flex-1 lg:w-5/12 w-full border-4 border-solid rounded border-black p-8 lg:mt-0 mt-8">
           <h2 className="mb-4 text-2xl decoration-4"><span className='underline'>円グラフ</span><small className='text-[12px] text-gray-600'>　※業務割合</small></h2>
-          <div className="bg-white w-[75%] mx-auto mt-8 border border-dashed border-black rounded">
+          <div className={`bg-white w-[75%] mx-auto mt-8 border border-dashed border-black rounded
+          ${displayFlg ? 'block' : 'hidden'}`}>
             {datas.datasets[0].data.length ? <Pie data={datas} /> : <p className="h-[70vh] flex justify-center items-center text-gray-400">入力された数字に応じてグラフを生成する</p>}
           </div>
+
+          {!displayFlg &&
+            <div className='bg-white w-[75%] mx-auto mt-8 border border-dashed border-black rounded'>
+              <p className="h-[70vh] flex justify-center items-center text-error">半角数字のみを入力してください.</p>
+            </div>
+          }
         </div>
       </div>
     </div>
